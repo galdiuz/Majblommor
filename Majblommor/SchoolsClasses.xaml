@@ -1,0 +1,34 @@
+﻿<Window x:Class="Majblommor.SchoolsClasses"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Majblommor"
+        Title="Redigera Skolor &amp; Klasser" SizeToContent="WidthAndHeight"
+        Icon="./Majblomman_2016.ico"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" ResizeMode="CanMinimize">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:UICommands.NewSchool}" Executed="NewSchool_Executed"/>
+        <CommandBinding Command="{x:Static local:UICommands.NewClass}" Executed="NewClass_Executed" CanExecute="NewClass_CanExecute"/>
+        <CommandBinding Command="{x:Static local:UICommands.Edit}" Executed="Edit_Executed" CanExecute="Edit_CanExecute"/>
+        <CommandBinding Command="{x:Static local:UICommands.Delete}" Executed="Delete_Executed" CanExecute="Delete_CanExecute"/>
+        <CommandBinding Command="{x:Static local:UICommands.Close}" Executed="Close_Executed"/>
+    </Window.CommandBindings>
+    <Grid Height="290" Width="320">
+        <TreeView x:Name="tv" HorizontalAlignment="Left" Height="213" Margin="10,10,0,0" VerticalAlignment="Top" Width="300" ItemsSource="{Binding Schools}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Classes}">
+                    <TextBlock Text="{Binding Name}"/>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True"/>
+                </Style>
+            </TreeView.ItemContainerStyle>
+        </TreeView>
+        <Button Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" HorizontalAlignment="Left" Margin="10,231,0,0" VerticalAlignment="Top" Width="100" Command="{x:Static local:UICommands.NewSchool}"/>
+        <Button Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" HorizontalAlignment="Left" Margin="10,258,0,0" VerticalAlignment="Top" Width="100" Command="{x:Static local:UICommands.NewClass}"/>
+        <Button Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" HorizontalAlignment="Left" Margin="123,231,0,0" VerticalAlignment="Top" Width="75" Command="{x:Static local:UICommands.Edit}"/>
+        <Button Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" HorizontalAlignment="Left" Margin="123,258,0,0" VerticalAlignment="Top" Width="75" Command="{x:Static local:UICommands.Delete}"/>
+        <Button Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" HorizontalAlignment="Left" Margin="235,258,0,0" VerticalAlignment="Top" Width="75" Command="{x:Static local:UICommands.Close}"/>
+    </Grid>
+</Window>

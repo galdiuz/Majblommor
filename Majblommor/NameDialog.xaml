@@ -1,0 +1,19 @@
+﻿<Window x:Class="Majblommor.NameDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Majblommor"
+        Title="NameDialog"
+        Icon="./Majblomman_2016.ico"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:UICommands.OK}" Executed="OK_Executed" CanExecute="OK_CanExecute"/>
+        <CommandBinding Command="{x:Static local:UICommands.Close}" Executed="Cancel_Executed"/>
+    </Window.CommandBindings>
+    <Grid Height="94" Width="200">
+        <Label Content="Namn:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="60,13,0,0" TextWrapping="Wrap" Text="{Binding Path=NewName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="130"/>
+        <Button Content="OK" HorizontalAlignment="Left" Margin="25,54,0,0" VerticalAlignment="Top" Width="75" Command="{x:Static local:UICommands.OK}"/>
+        <Button Content="Avbryt" HorizontalAlignment="Left" Margin="105,54,0,0" VerticalAlignment="Top" Width="75" Command="{x:Static local:UICommands.Close}"/>
+
+    </Grid>
+</Window>

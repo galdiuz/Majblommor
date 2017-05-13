@@ -1,0 +1,176 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Majblommor"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Majblommor.MainWindow"
+        x:Name="windowElement"
+        Title="Majblomman" Height="600" Width="1200"
+        Icon="./Majblomman_2016.ico"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" Closing="windowElement_Closing">
+    <Window.Resources>
+        <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}" x:Key="TableCell">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsReadOnly" Value="True">
+                    <Setter Property="Background" Value="LightGray"/>
+                </Trigger>
+                <MultiTrigger>
+                    <MultiTrigger.Conditions>
+                        <Condition Property="IsSelected" Value="True"/>
+                        <Condition Property="IsReadOnly" Value="True"/>
+                    </MultiTrigger.Conditions>
+                    <MultiTrigger.Setters>
+                        <Setter Property="Background" Value="#FF3B638D"/>
+                    </MultiTrigger.Setters>
+                </MultiTrigger>
+            </Style.Triggers>
+        </Style>
+        <local:AddConverter x:Key="AddConverter"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:UICommands.New}" Executed="New_Executed"/>
+        <CommandBinding Command="{x:Static local:UICommands.Open}" Executed="Open_Executed"/>
+        <CommandBinding Command="{x:Static local:UICommands.Save}" Executed="Save_Executed"/>
+        <CommandBinding Command="{x:Static local:UICommands.SaveAs}" Executed="SaveAs_Executed"/>
+        <CommandBinding Command="{x:Static local:UICommands.Merge}" Executed="Merge_Executed"/>
+        <CommandBinding Command="{x:Static local:UICommands.Exit}" Executed="Exit_Executed"/>
+        <CommandBinding Command="{x:Static local:UICommands.NewStudent}" Executed="NewStudentCommandBinding_Executed" CanExecute="NewStudentCommandBinding_CanExecute"/>
+        <CommandBinding Command="{x:Static local:UICommands.DeleteStudent}" Executed="DeleteStudentCommandBinding_Executed" CanExecute="DeleteStudentCommandBinding_CanExecute"/>
+        <CommandBinding Command="{x:Static local:UICommands.Undo}" Executed="Undo_Executed" CanExecute="Undo_CanExecute"/>
+        <CommandBinding Command="{x:Static local:UICommands.Redo}" Executed="Redo_Executed" CanExecute="Redo_CanExecute"/>
+        <CommandBinding Command="{x:Static local:UICommands.EditSchools}" Executed="EditSchools_Executed"/>
+        <CommandBinding Command="{x:Static local:UICommands.Settings}" Executed="Settings_Executed"/>
+        <CommandBinding Command="{x:Static local:UICommands.Stats}" Executed="Stats_Executed"/>
+        <CommandBinding Command="{x:Static local:UICommands.About}" Executed="About_Executed"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Command="{x:Static local:UICommands.Stats}" Gesture="Ctrl+Shift+F12"/>
+    </Window.InputBindings>
+    <Grid>
+        <Menu Height="20" Margin="0" VerticalAlignment="Top">
+            <MenuItem Header="Fil">
+                <MenuItem Command="{x:Static local:UICommands.New}"/>
+                <MenuItem Command="{x:Static local:UICommands.Open}"/>
+                <MenuItem Command="{x:Static local:UICommands.Save}"/>
+                <MenuItem Command="{x:Static local:UICommands.SaveAs}"/>
+                <MenuItem Command="{x:Static local:UICommands.Merge}"/>
+                <Separator/>
+                <MenuItem Command="{x:Static local:UICommands.Exit}"/>
+            </MenuItem>
+            <MenuItem Header="Redigera">
+                <MenuItem Command="{x:Static local:UICommands.Undo}"/>
+                <MenuItem Command="{x:Static local:UICommands.Redo}"/>
+                <Separator/>
+                <MenuItem Command="{x:Static local:UICommands.NewStudent}"/>
+                <MenuItem Command="{x:Static local:UICommands.DeleteStudent}"/>
+                <MenuItem Command="{x:Static local:UICommands.EditSchools}"/>
+                <MenuItem Command="{x:Static local:UICommands.Settings}"/>
+            </MenuItem>
+            <MenuItem Header="Om">
+                <MenuItem Command="{x:Static local:UICommands.About}"/>
+            </MenuItem>
+        </Menu>
+        <Label Content="Skola:" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="56,22,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding Schools}" SelectedItem="{Binding CurrentSchool}" DisplayMemberPath="Name" SelectedIndex="0"/>
+        <Label Content="Klass:" HorizontalAlignment="Left" Margin="191,20,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="235,22,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding CurrentSchool.Classes}" SelectedItem="{Binding CurrentClass}" DisplayMemberPath="Name" SelectedIndex="0"/>
+        <CheckBox Content="Dölj Redovisade" HorizontalAlignment="Left" Margin="391,25,0,0" VerticalAlignment="Top" IsChecked="{Binding HideDone}"/>
+        <CheckBox Content="Dölj Ej Säljande" HorizontalAlignment="Left" Margin="521,25,0,0" VerticalAlignment="Top" IsChecked="{Binding HideInactive}"/>
+        <Grid Name="Header" Height="22" VerticalAlignment="Top" Margin="0,48,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition>
+                    <ColumnDefinition.Width>
+                        <MultiBinding Converter="{StaticResource AddConverter}">
+                            <Binding ElementName="colName" Path="ActualWidth"/>
+                            <Binding ElementName="colSurname" Path="ActualWidth"/>
+                            <Binding ElementName="colTel" Path="ActualWidth"/>
+                        </MultiBinding>
+                    </ColumnDefinition.Width>
+                </ColumnDefinition>
+                <ColumnDefinition>
+                    <ColumnDefinition.Width>
+                        <MultiBinding Converter="{StaticResource AddConverter}">
+                            <Binding ElementName="colGivSmall" Path="ActualWidth"/>
+                            <Binding ElementName="colGivWreaths" Path="ActualWidth"/>
+                            <Binding ElementName="colGivLarge" Path="ActualWidth"/>
+                            <Binding ElementName="colGivPins" Path="ActualWidth"/>
+                            <Binding ElementName="colGivSign" Path="ActualWidth"/>
+                        </MultiBinding>
+                    </ColumnDefinition.Width>
+                </ColumnDefinition>
+                <ColumnDefinition>
+                    <ColumnDefinition.Width>
+                        <MultiBinding Converter="{StaticResource AddConverter}">
+                            <Binding ElementName="colRetSmall" Path="ActualWidth"/>
+                            <Binding ElementName="colRetWreaths" Path="ActualWidth"/>
+                            <Binding ElementName="colRetLarge" Path="ActualWidth"/>
+                            <Binding ElementName="colRetPins" Path="ActualWidth"/>
+                        </MultiBinding>
+                    </ColumnDefinition.Width>
+                </ColumnDefinition>
+                <ColumnDefinition>
+                    <ColumnDefinition.Width>
+                        <MultiBinding Converter="{StaticResource AddConverter}">
+                            <Binding ElementName="colTotSmall" Path="ActualWidth"/>
+                            <Binding ElementName="colTotWreaths" Path="ActualWidth"/>
+                            <Binding ElementName="colTotLarge" Path="ActualWidth"/>
+                            <Binding ElementName="colTotPins" Path="ActualWidth"/>
+                        </MultiBinding>
+                    </ColumnDefinition.Width>
+                </ColumnDefinition>
+                <ColumnDefinition>
+                    <ColumnDefinition.Width>
+                        <MultiBinding Converter="{StaticResource AddConverter}">
+                            <Binding ElementName="colSold" Path="ActualWidth"/>
+                            <Binding ElementName="colSms" Path="ActualWidth"/>
+                            <Binding ElementName="colProvision" Path="ActualWidth"/>
+                            <Binding ElementName="colBonus" Path="ActualWidth"/>
+                            <Binding ElementName="colPay" Path="ActualWidth"/>
+                            <Binding ElementName="colReceived" Path="ActualWidth"/>
+                            <Binding ElementName="colSign" Path="ActualWidth"/>
+                            <Binding ElementName="colNote" Path="ActualWidth"/>
+                        </MultiBinding>
+                    </ColumnDefinition.Width>
+                </ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Margin="5,0,0,0" TextWrapping="Wrap" Text="Elev" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1" Margin="5,0,0,0" TextWrapping="Wrap" Text="Utdelat" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="2" Margin="5,0,0,0" TextWrapping="Wrap" Text="Returnerat" VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="3" Margin="5,0,0,0" TextWrapping="Wrap" Text="Totalt Sålt" VerticalAlignment="Center" />
+            <TextBlock Grid.Column="4" Margin="5,0,0,0" TextWrapping="Wrap" Text="Betalning" VerticalAlignment="Center" />
+            <Border BorderBrush="Black" BorderThickness="0,1,1,0" Margin="0" Grid.Column="0"/>
+            <Border BorderBrush="Black" BorderThickness="0,1,1,0" Margin="0" Grid.Column="1"/>
+            <Border BorderBrush="Black" BorderThickness="0,1,1,0" Margin="0" Grid.Column="2"/>
+            <Border BorderBrush="Black" BorderThickness="0,1,1,0" Margin="0" Grid.Column="3"/>
+            <Border BorderBrush="Black" BorderThickness="0,1,1,0" Margin="0" Grid.Column="4"/>
+        </Grid>
+        <local:CustomDataGrid x:Name="dataGrid" ScrollViewer.ScrollChanged="DataGrid_ScrollChanged" CanUserReorderColumns="False" CanUserResizeRows="False" AutoGenerateColumns="False" Margin="0,70,0,0" HeadersVisibility="Column" ItemsSource="{Binding View}" CellEditEnding="DataGrid_CellEditEnding" AddingNewItem="DataGrid_AddingNewItem" Background="DarkGray" CellStyle="{StaticResource TableCell}" SelectionUnit="Cell">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="colName" Binding="{Binding Firstname}" ClipboardContentBinding="{x:Null}" Header="Förnamn"/>
+                <DataGridTextColumn x:Name="colSurname" Binding="{Binding Surname}" ClipboardContentBinding="{x:Null}" Header="Efternamn"/>
+                <DataGridTextColumn x:Name="colTel" Binding="{Binding Telephone}" ClipboardContentBinding="{x:Null}" Header="Telefon"/>
+                <DataGridTextColumn x:Name="colGivSmall" Binding="{Binding Given.Small}" ClipboardContentBinding="{x:Null}" Header="Små"/>
+                <DataGridTextColumn x:Name="colGivWreaths" Binding="{Binding Given.Wreaths}" ClipboardContentBinding="{x:Null}" Header="Kransar"/>
+                <DataGridTextColumn x:Name="colGivLarge" Binding="{Binding Given.Large}" ClipboardContentBinding="{x:Null}" Header="Stora"/>
+                <DataGridTextColumn x:Name="colGivPins" Binding="{Binding Given.Pins}" ClipboardContentBinding="{x:Null}" Header="Pins"/>
+                <DataGridTextColumn x:Name="colGivSign" Binding="{Binding GivSign}" ClipboardContentBinding="{x:Null}" Header="Sign+datum"/>
+                <DataGridTextColumn x:Name="colRetSmall" Binding="{Binding Returned.Small}" ClipboardContentBinding="{x:Null}" Header="Små"/>
+                <DataGridTextColumn x:Name="colRetWreaths" Binding="{Binding Returned.Wreaths}" ClipboardContentBinding="{x:Null}" Header="Kransar"/>
+                <DataGridTextColumn x:Name="colRetLarge" Binding="{Binding Returned.Large}" ClipboardContentBinding="{x:Null}" Header="Stora"/>
+                <DataGridTextColumn x:Name="colRetPins" Binding="{Binding Returned.Pins}" ClipboardContentBinding="{x:Null}" Header="Pins"/>
+                <DataGridTextColumn x:Name="colTotSmall" Binding="{Binding Total.Small}" ClipboardContentBinding="{x:Null}" Header="Små" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="colTotWreaths" Binding="{Binding Total.Wreaths}" ClipboardContentBinding="{x:Null}" Header="Kransar" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="colTotLarge" Binding="{Binding Total.Large}" ClipboardContentBinding="{x:Null}" Header="Stora" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="colTotPins" Binding="{Binding Total.Pins}" ClipboardContentBinding="{x:Null}" Header="Pins" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="colSold" Binding="{Binding Sold}" ClipboardContentBinding="{x:Null}" Header="Sålt" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="colSms" Binding="{Binding Sms}" ClipboardContentBinding="{x:Null}" Header="SMS"/>
+                <DataGridTextColumn x:Name="colProvision" Binding="{Binding Provision}" ClipboardContentBinding="{x:Null}" Header="Provision" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="colBonus" Binding="{Binding Bonus}" ClipboardContentBinding="{x:Null}" Header="Bonus" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="colPay" Binding="{Binding Pay}" ClipboardContentBinding="{x:Null}" Header="Att Betala" IsReadOnly="True"/>
+                <DataGridTextColumn x:Name="colReceived" Binding="{Binding Received}" ClipboardContentBinding="{x:Null}" Header="Summa Emottagen"/>
+                <DataGridTextColumn x:Name="colSign" Binding="{Binding Sign}" ClipboardContentBinding="{x:Null}" Header="Sign+datum"/>
+                <DataGridTextColumn x:Name="colNote" Binding="{Binding Note}" ClipboardContentBinding="{x:Null}" Header="Notering"/>
+            </DataGrid.Columns>
+        </local:CustomDataGrid>
+    </Grid>
+</Window>

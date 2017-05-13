@@ -1,0 +1,54 @@
+﻿<Window x:Class="Majblommor.Settings"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Majblommor"
+        mc:Ignorable="d"
+        Title="Inställningar" SizeToContent="WidthAndHeight"
+        Icon="./Majblomman_2016.ico"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Window.CommandBindings>
+        <CommandBinding Command="{x:Static local:UICommands.OK}" Executed="OK_Executed"/>
+        <CommandBinding Command="{x:Static local:UICommands.Cancel}" Executed="Cancel_Executed"/>
+    </Window.CommandBindings>
+    <Grid Height="310" Width="240">
+        <GroupBox Header="Låda" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="100" Width="220">
+            <Grid>
+                <Label Content="Små:" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="50,13,0,0" TextWrapping="Wrap" Text="{Binding Path=Box.Small, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
+                <Label Content="Krans:" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="152,13,0,0" TextWrapping="Wrap" Text="{Binding Box.Wreaths, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
+                <Label Content="Stora:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="50,44,0,0" TextWrapping="Wrap" Text="{Binding Box.Large, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
+                <Label Content="Pins:" HorizontalAlignment="Left" Margin="118,41,0,0" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="152,44,0,0" TextWrapping="Wrap" Text="{Binding Box.Pins, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
+                <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="90,15,0,0" TextWrapping="Wrap" Text="st" VerticalAlignment="Top"/>
+                <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="90,46,0,0" TextWrapping="Wrap" Text="st" VerticalAlignment="Top"/>
+                <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" Margin="192,46,0,0" TextWrapping="Wrap" Text="st" VerticalAlignment="Top"/>
+                <TextBlock x:Name="textBlock_Copy2" HorizontalAlignment="Left" Margin="192,15,0,0" TextWrapping="Wrap" Text="st" VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Pris" HorizontalAlignment="Left" Margin="10,115,0,0" VerticalAlignment="Top" Height="100" Width="220">
+            <Grid>
+                <Label Content="Små:" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="50,13,0,0" TextWrapping="Wrap" Text="{Binding Price.Small, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
+                <Label Content="Krans:" HorizontalAlignment="Left" Margin="110,10,0,0" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="152,13,0,0" TextWrapping="Wrap" Text="{Binding Price.Wreaths, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
+                <Label Content="Stora:" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="50,44,0,0" TextWrapping="Wrap" Text="{Binding Price.Large, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
+                <Label Content="Pins:" HorizontalAlignment="Left" Margin="118,41,0,0" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="152,44,0,0" TextWrapping="Wrap" Text="{Binding Price.Pins, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
+                <TextBlock x:Name="textBlock_Copy3" HorizontalAlignment="Left" Margin="90,15,0,0" TextWrapping="Wrap" Text="kr" VerticalAlignment="Top"/>
+                <TextBlock x:Name="textBlock_Copy4" HorizontalAlignment="Left" Margin="90,46,0,0" TextWrapping="Wrap" Text="kr" VerticalAlignment="Top"/>
+                <TextBlock x:Name="textBlock_Copy5" HorizontalAlignment="Left" Margin="192,46,0,0" TextWrapping="Wrap" Text="kr" VerticalAlignment="Top"/>
+                <TextBlock x:Name="textBlock_Copy6" HorizontalAlignment="Left" Margin="192,15,0,0" TextWrapping="Wrap" Text="kr" VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+        <Button Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" HorizontalAlignment="Left" Margin="33,269,0,0" VerticalAlignment="Top" Width="75" Command="{x:Static local:UICommands.OK}"/>
+        <Button Content="{Binding RelativeSource={RelativeSource Self}, Path=Command.Text}" HorizontalAlignment="Left" Margin="130,269,0,0" VerticalAlignment="Top" Width="75" Command="{x:Static local:UICommands.Cancel}"/>
+        <Label Content="Bonus:" HorizontalAlignment="Left" Margin="68,225,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="113,228,0,0" TextWrapping="Wrap" Text="{Binding Bonus, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="40"/>
+        <TextBlock x:Name="textBlock_Copy7" HorizontalAlignment="Left" Margin="153,230,0,0" TextWrapping="Wrap" Text="kr" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
